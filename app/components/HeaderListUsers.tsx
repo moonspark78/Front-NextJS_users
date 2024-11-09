@@ -4,7 +4,8 @@ import { TiPlus } from "react-icons/ti";
 import ModalAddUser from "./ModalAddUser";
 import {UserData} from "@/app/utils/Types"
 
-const HeaderListUsers = () => {
+
+const HeaderListUsers = ({onAddUser}: { onAddUser: (userData: UserData) => void }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const openModal = () => setIsModalOpen(true);
@@ -13,6 +14,7 @@ const HeaderListUsers = () => {
   // Fonction pour gérer la soumission du formulaire (action à effectuer lors de l'ajout d'un utilisateur)
   const handleAddUser = (userData: UserData) => {
     console.log("User Data:", userData); // Remplacez ceci par l'action à effectuer, ex. envoi à une API
+    onAddUser(userData); // Appel de la fonction pour ajouter l'utilisateur à la liste
     closeModal();
   };
 

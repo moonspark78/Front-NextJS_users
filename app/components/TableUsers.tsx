@@ -1,8 +1,9 @@
 import React from "react";
 import { RiDeleteBin5Line } from "react-icons/ri";
 import { FaPenToSquare } from "react-icons/fa6";
+import { UserData } from "../utils/Types";
 
-const TableUsers = () => {
+const TableUsers = ({ users }: { users: UserData[] }) => {
   return (
     <div className="pt-2 flex justify-center items-center">
       <div className="w-[98%] border rounded-md mx-auto">
@@ -30,22 +31,23 @@ const TableUsers = () => {
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td className="border px-4 py-2 text-center">Avatar 1</td>
-              <td className="border px-4 py-2 text-center">John Doe</td>
-              <td className="border px-4 py-2 text-center">john@example.com</td>
-              <td className="border px-4 py-2 text-center">30</td>
-              <td className="border px-4 py-2 text-center">USA</td>
-              <td className="border px-4 py-2 flex gap-4 justify-center">
-                <button className="bg-blue-500 text-white p-2 rounded hover:bg-blue-700 transition-colors">
-                  <FaPenToSquare size={20} />
-                </button>
-                <button className="bg-red-500 text-white p-2 rounded hover:bg-red-700 transition-colors">
-                  <RiDeleteBin5Line size={20} />
-                </button>
-              </td>
-            </tr>
-            {/* Ajoutez d'autres lignes d'utilisateur ici */}
+            {users.map((user, index) => (
+              <tr key={index}>
+                <td className="border px-4 py-2 text-center">Avatar {index + 1}</td>
+                <td className="border px-4 py-2 text-center">{user.fullName}</td>
+                <td className="border px-4 py-2 text-center">{user.email}</td>
+                <td className="border px-4 py-2 text-center">{user.age}</td>
+                <td className="border px-4 py-2 text-center">{user.country}</td>
+                <td className="border px-4 py-2 flex gap-4 justify-center">
+                  <button className="bg-blue-500 text-white p-2 rounded hover:bg-blue-700 transition-colors">
+                    <FaPenToSquare size={20} />
+                  </button>
+                  <button className="bg-red-500 text-white p-2 rounded hover:bg-red-700 transition-colors">
+                    <RiDeleteBin5Line size={20} />
+                  </button>
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>
