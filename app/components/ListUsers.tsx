@@ -1,3 +1,4 @@
+"use client"
 import React, { useState } from 'react'
 import HeaderListUsers from './HeaderListUsers'
 import TableUsers from './TableUsers'
