@@ -21,6 +21,10 @@ const ModalUpdateUser = ({ isOpen, onClose, onSubmit, userData  }:ModalUpdateUse
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     if (formData && onSubmit) {
+      // S'assurer que l'âge est un nombre
+      if (formData.age) {
+        formData.age = Number(formData.age); // Convertir l'âge en nombre entier
+      }
       onSubmit(formData);
     }
   };
@@ -32,8 +36,8 @@ const ModalUpdateUser = ({ isOpen, onClose, onSubmit, userData  }:ModalUpdateUse
     }
   };
   
-  if (!isOpen) return null;
-  
+  if (!isOpen || !formData) return null;
+
 
   return (
     <div className='fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50'>

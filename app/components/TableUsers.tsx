@@ -4,7 +4,7 @@ import { FaPenToSquare } from "react-icons/fa6";
 import { UserData } from "../utils/Types";
 import ModalUpdateUser from "./ModalUpdateUser";
 
-const TableUsers = ({ users }: { users: UserData[] }) => {
+const TableUsers = ({ users, setUsers }: { users: UserData[] ; setUsers: React.Dispatch<React.SetStateAction<UserData[]>>  }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState<UserData | null>(null);
 
@@ -18,11 +18,36 @@ const TableUsers = ({ users }: { users: UserData[] }) => {
     setSelectedUser(null);
   };
 
-  const handleUpdateUser = (updatedUser: UserData) => {
-    // Logique pour mettre à jour l'utilisateur, probablement avec une requête API
-    console.log('Utilisateur mis à jour:', updatedUser);
-    closeModal();
+
+  // Dans TableUsers.tsx
+
+const handleUpdateUser = async (updatedUser: UserData) => {
+  try {
+    // Appel à l'API pour mettre à jour l'utilisateur
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users/${updatedUser._id}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(updatedUser),
+    });
+
+    if (response.ok) {
+      const updatedData = await response.json();
+
+      // Met à jour l'état pour refléter la modification dans l'interface
+      setUsers((prevUsers) =>
+        prevUsers.map((user) => (user._id === updatedUser._id ? updatedData : user))
+      );
+      closeModal(); // Ferme la modal une fois la mise à jour effectuée
+    } else {
+      console.error('Erreur lors de la mise à jour de l’utilisateur:', response.status);
+    }
+  } catch (error) {
+    console.error('Erreur réseau lors de la mise à jour de l’utilisateur:', error);
   }
+};
+
 
   return (
     <div className="pt-2 flex justify-center items-center">
@@ -59,7 +84,7 @@ const TableUsers = ({ users }: { users: UserData[] }) => {
                 <td className="border px-4 py-2 text-center">{user.age}</td>
                 <td className="border px-4 py-2 text-center">{user.country}</td>
                 <td className="border px-4 py-2 flex gap-4 justify-center">
-                  <button className="bg-blue-500 text-white p-2 rounded hover:bg-blue-700 transition-colors"  onClick={openModal(user)}>
+                  <button className="bg-blue-500 text-white p-2 rounded hover:bg-blue-700 transition-colors"  onClick={() => openModal(user)}>
                     <FaPenToSquare size={20}/>
                   </button>
                   <button className="bg-red-500 text-white p-2 rounded hover:bg-red-700 transition-colors">

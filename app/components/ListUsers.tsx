@@ -39,7 +39,7 @@ const ListUsers = () => {
         <div className=' w-4/5 border border-gray-300 p-8 rounded-md'>
 
             <HeaderListUsers onAddUser={handleAddUser}/>
-            <TableUsers users={users}/>
+            <TableUsers users={users} setUsers={setUsers}/>
         </div>
     </div>
   )
