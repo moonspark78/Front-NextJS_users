@@ -1,5 +1,7 @@
 import React, { useState, FormEvent } from 'react';
 import {UserData} from "@/app/utils/Types"
+import confetti from 'canvas-confetti';
+
 
 interface ModalAddUserProps {
   isOpen: boolean;
@@ -15,6 +17,15 @@ const ModalAddUser= ({ isOpen, onClose, onSubmit }:ModalAddUserProps) => {
     country: '',
   });
 
+  const triggerConfetti = () => {
+    confetti({
+      particleCount: 300,
+      spread: 150,
+      origin: { y: 0.8 }
+    });
+  };
+
+
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     onSubmit({
@@ -22,6 +33,7 @@ const ModalAddUser= ({ isOpen, onClose, onSubmit }:ModalAddUserProps) => {
       age: parseInt(formData.age),
     });
     setFormData({ fullName: '', email: '', age: '', country: '' });
+    triggerConfetti()
     onClose();
   };
 
