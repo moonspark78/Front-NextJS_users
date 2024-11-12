@@ -25,7 +25,7 @@ const handleUpdateUser = async (updatedUser: UserData) => {
   try {
     // Appel à l'API pour mettre à jour l'utilisateur
     const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users/${updatedUser._id}`, {
-      method: 'PATCH',
+      method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
       },
@@ -47,6 +47,31 @@ const handleUpdateUser = async (updatedUser: UserData) => {
     console.error('Erreur réseau lors de la mise à jour de l’utilisateur:', error);
   }
 };
+
+const handleDeleteUser= async (deleteUser: UserData)=>{
+  try {
+    // Appel à l'API pour mettre à jour l'utilisateur
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users/${deleteUser._id}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(deleteUser),
+    });
+
+    if (response.ok) {
+      // Met à jour l'état pour refléter la modification dans l'interface
+      setUsers((prevUsers) =>
+        prevUsers.filter((user) => user._id !== deleteUser._id)
+      );
+      closeModal(); // Ferme la modal une fois la mise à jour effectuée
+    } else {
+      console.error('Erreur lors de la suppression de l’utilisateur:', response.status);
+    }
+  } catch (error) {
+    console.error('Erreur réseau lors de la suppression de l’utilisateur:', error);
+  }
+}
 
 
   return (
@@ -84,10 +109,14 @@ const handleUpdateUser = async (updatedUser: UserData) => {
                 <td className="border px-4 py-2 text-center">{user.age}</td>
                 <td className="border px-4 py-2 text-center">{user.country}</td>
                 <td className="border px-4 py-2 flex gap-4 justify-center">
-                  <button className="bg-blue-500 text-white p-2 rounded hover:bg-blue-700 transition-colors"  onClick={() => openModal(user)}>
+                  <button 
+                      className="bg-blue-500 text-white p-2 rounded hover:bg-blue-700 transition-colors"  
+                      onClick={() => openModal(user)}>
                     <FaPenToSquare size={20}/>
                   </button>
-                  <button className="bg-red-500 text-white p-2 rounded hover:bg-red-700 transition-colors">
+                  <button 
+                      className="bg-red-500 text-white p-2 rounded hover:bg-red-700 transition-colors"
+                      onClick={() => handleDeleteUser(user)}>
                     <RiDeleteBin5Line size={20} />
                   </button>
                 </td>
