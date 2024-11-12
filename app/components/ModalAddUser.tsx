@@ -19,9 +19,9 @@ const ModalAddUser= ({ isOpen, onClose, onSubmit }:ModalAddUserProps) => {
 
   const triggerConfetti = () => {
     confetti({
-      particleCount: 300,
-      spread: 150,
-      origin: { y: 0.8 }
+      particleCount: 350,
+      spread: 190,
+      origin: { y: 0.7 }
     });
   };
 
