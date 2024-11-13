@@ -1,7 +1,7 @@
 import React from "react";
-import Title from "../../components/Title";
-import InputSearch from "../../components/InputSearch";
-import ListUsers from "../../components/ListUsers";
+import Title from "../Title";
+import InputSearch from "../InputSearch";
+import ListUsers from "../ListUsers";
 
 const Home = () => {
   return (
