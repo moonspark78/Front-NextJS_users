@@ -19,6 +19,8 @@ const Login = () => {
     );
 
     if (response.ok) {
+      const { token } = await response.json();
+      localStorage.setItem("authToken", token); // stocke le token
       router.push("/"); // Redirige vers Home après connexion
     } else {
       console.error("Erreur de connexion");

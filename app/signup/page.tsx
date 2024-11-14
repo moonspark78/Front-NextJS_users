@@ -15,16 +15,17 @@ const SignUp = () => {
       return;
     }
 
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/signup`, {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/register`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email, password }),
     });
 
     if (response.ok) {
-      router.push("/login"); // Redirige vers la page de connexion après l'inscription
+      router.push("/login");
     } else {
-      setError("Erreur d'inscription");
+      const errorData = await response.json();
+      setError(errorData.message || "Erreur d'inscription");
     }
   };
 
@@ -43,7 +44,10 @@ const SignUp = () => {
                 id="email"
                 placeholder="Email"
                 value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                  setError(""); // Réinitialise l'erreur à chaque modification de l'email
+                }}
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
                 required
               />
@@ -57,7 +61,10 @@ const SignUp = () => {
                 id="password"
                 placeholder="Mot de passe"
                 value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={(e) => {
+                  setPassword(e.target.value);
+                  setError(""); // Réinitialise l'erreur à chaque modification du mot de passe
+                }}
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
                 required
               />
@@ -71,7 +78,10 @@ const SignUp = () => {
                 id="confirmPassword"
                 placeholder="Confirmer le mot de passe"
                 value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
+                onChange={(e) => {
+                  setConfirmPassword(e.target.value);
+                  setError(""); // Réinitialise l'erreur à chaque modification de la confirmation du mot de passe
+                }}
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
                 required
               />
