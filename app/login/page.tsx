@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
 const Login = () => {
@@ -27,6 +27,17 @@ const Login = () => {
     }
   };
 
+
+  useEffect(() => {
+    // Vérifie si le token existe déjà dans le localStorage
+    const token = localStorage.getItem("authToken");
+
+    if (token) {
+      // Si un token est trouvé, redirige l'utilisateur vers la page Home
+      router.push("/home");
+    }
+  }, [router]);
+ 
   return (
     <div className="fixed inset-0 bg-black/20  flex items-center justify-center p-4 z-50">
       <div className="bg-white rounded-xl shadow-xl w-full max-w-md transform transition-all">
